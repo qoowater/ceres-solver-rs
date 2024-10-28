@@ -110,8 +110,16 @@ fn main() {
         .collect();
 
     let eigen_dirs = install_eigen(&vendor_dir);
-    //let glog_dirs = install_glog(&vendor_dir);
+    // let glog_dirs = install_glog(&vendor_dir);
     let ceres_dirs = install_ceres(&vendor_dir);
+
+    let glog_include = {
+        let mut dir = ceres_dirs.include.clone();
+        dir.push("ceres");
+        dir.push("internal");
+        dir.push("miniglog");
+        dir
+    };
 
     println!(
         "cargo:rustc-link-search=native={}",
@@ -119,7 +127,7 @@ fn main() {
     );
     println!(
         "cargo:include={}",
-        env::join_paths([&eigen_dirs.include, &ceres_dirs.include,])
+        env::join_paths([&eigen_dirs.include, &ceres_dirs.include, &glog_include])
             .unwrap()
             .into_string()
             .unwrap()
