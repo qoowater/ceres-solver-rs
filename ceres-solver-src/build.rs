@@ -80,7 +80,7 @@ fn install_ceres(vendor_dir: &Path) -> DstDirs {
         .define("ACCELERATESPARSE", "OFF")
         .define("EIGENMETIS", "OFF")
         .define("GFLAGS", "OFF")
-        .define("MINIGLOG", "OFF")
+        .define("MINIGLOG", "ON")
         .define("SCHUR_SPECIALIZATIONS", "OFF")
         .define("BUILD_SHARED_LIBS", "OFF")
         .define("EXPORT_BUILD_DIR", "OFF")
@@ -110,7 +110,7 @@ fn main() {
         .collect();
 
     let eigen_dirs = install_eigen(&vendor_dir);
-    let glog_dirs = install_glog(&vendor_dir);
+    //let glog_dirs = install_glog(&vendor_dir);
     let ceres_dirs = install_ceres(&vendor_dir);
 
     println!(
@@ -119,7 +119,7 @@ fn main() {
     );
     println!(
         "cargo:include={}",
-        env::join_paths([&eigen_dirs.include, &glog_dirs.include, &ceres_dirs.include,])
+        env::join_paths([&eigen_dirs.include, &ceres_dirs.include,])
             .unwrap()
             .into_string()
             .unwrap()
